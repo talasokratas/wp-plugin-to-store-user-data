@@ -54,4 +54,3 @@ add_action('wp_enqueue_scripts', array($pluginInstance, 'callback_for_setting_up
 
 add_action('wp_ajax_post_person_data', array($pluginInstance, 'post_person_data'));
 add_action('wp_ajax_nopriv_post_person_data', array($pluginInstance, 'post_person_data'));
-
