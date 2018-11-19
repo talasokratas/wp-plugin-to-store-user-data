@@ -33,13 +33,13 @@ class EvaldasPlugin
         $table_name = $wpdb->prefix . 'evaldas_users';
 
         $sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		name varchar(16) NOT NULL,
-		lastname varchar(16) NOT NULL,
-		birthdate datetime DEFAULT '0000-00-00' NOT NULL,
-		address varchar (30) NOT NULL,
-		UNIQUE KEY id (id)
-	) $charset_collate;";
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  name varchar(16) NOT NULL,
+		  lastname varchar(16) NOT NULL,
+		  birthdate datetime DEFAULT '0000-00-00' NOT NULL,
+		  address varchar (30) NOT NULL,
+		  UNIQUE KEY id (id)
+	    ) $charset_collate;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
@@ -51,7 +51,55 @@ class EvaldasPlugin
 
     function callback_for_setting_up_scripts() {
         wp_enqueue_script( 'script', plugins_url('js/script.js', __FILE__),  'jquery', null, true);
+        wp_localize_script( 'script', 'evaldasAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php')));
+
     }
+
+    function post_person_data(){
+
+        $birthdate = date('Y-m-d', strtotime($_POST['birthdate']));
+        $address = $_POST['address'];
+
+        if(empty(trim($_POST['name'])))
+        {
+
+        }
+        else
+        {
+            $name = ucwords(strtolower(trim($_POST['name'])));
+        }
+
+        if(empty(trim($_POST['lastname'])))
+        {
+
+        }
+        else
+        {
+            $lastname = ucwords(strtolower(trim($_POST['lastname'])));
+        }
+
+        global $wpdb;
+
+        $wpdb->insert(
+            'wp_evaldas_users',
+            array(
+                'name' => $name,
+                'lastname' => $lastname,
+                'birthdate' => $birthdate,
+                'address' => $address,
+            ),
+            array(
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+            )
+        );
+        die();
+    }
+
+
+
 
 
 }
