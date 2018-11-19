@@ -46,7 +46,11 @@ class EvaldasPlugin
     }
 
     function create_form(){
-        require_once (EVALDAS__PLUGIN_DIR . '/views/create.php');
+        include (EVALDAS__PLUGIN_DIR . '/views/create.php');
+    }
+
+    function show_data (){
+        include (EVALDAS__PLUGIN_DIR . '/templates/single-customer-data.php');
     }
 
     function callback_for_setting_up_scripts() {
@@ -81,7 +85,7 @@ class EvaldasPlugin
         global $wpdb;
 
         $wpdb->insert(
-            'wp_evaldas_users',
+            $wpdb->prefix . 'evaldas_users',
             array(
                 'name' => $name,
                 'lastname' => $lastname,
@@ -91,7 +95,7 @@ class EvaldasPlugin
             array(
                 '%s',
                 '%s',
-                '%s',
+                '%d',
                 '%s',
             )
         );

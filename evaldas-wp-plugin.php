@@ -47,6 +47,7 @@ register_activation_hook(__FILE__, array($pluginInstance,'deactivate'));
 register_activation_hook( __FILE__, array($pluginInstance,'evaldas_plugin_create_db'));
 
 add_shortcode('user_data_input', array($pluginInstance,'create_form'));
+add_shortcode('user_data_output', array($pluginInstance,'show_data'));
 
 add_action('wp_enqueue_scripts', array($pluginInstance, 'callback_for_setting_up_scripts'));
 
